@@ -446,6 +446,16 @@ function toStringList(arr) {
  *    ]
  */
 function sortCitiesArray(/* arr */) {
+  // const country = [
+  //   { country: 'Russia', city: 'Moscow' },
+  //   { country: 'Belarus', city: 'Minsk' },
+  //   { country: 'Poland', city: 'Warsaw' },
+  //   { country: 'Russia', city: 'Saint Petersburg' },
+  //   { country: 'Poland', city: 'Krakow' },
+  //   { country: 'Belarus', city: 'Brest' },
+  // ];
+  // const compare = (a, b) => lib[a] - lib[b];
+  // return arr.sort(compare);
   throw new Error('Not implemented');
 }
 
@@ -468,6 +478,7 @@ function sortCitiesArray(/* arr */) {
  *           [0,0,0,0,1]]
  */
 function getIdentityMatrix(/* n */) {
+  // return [...Array(n)].map((e1, x, arr) => arr.map((e2, y) => (x === y ? 1 : 0)));
   throw new Error('Not implemented');
 }
 
@@ -484,8 +495,9 @@ function getIdentityMatrix(/* n */) {
  *     0, 100 => [ 0, 1, 2, ..., 100 ]
  *     3, 3   => [ 3 ]
  */
-function getIntervalArray(start, end) {
-  return Array.from({ length: end - start }, (v, k) => k + 1);
+function getIntervalArray(/* start, end */) {
+  // return Array.from({ length: (end - start) - 2 }, (v, k) => k + 1);
+  throw new Error('Not implemented');
 }
 
 /**
@@ -499,8 +511,8 @@ function getIntervalArray(start, end) {
  *   [ 'a', 'a', 'a', 'a' ]  => [ 'a' ]
  *   [ 1, 1, 2, 2, 3, 3, 4, 4] => [ 1, 2, 3, 4]
  */
-function distinct(/* arr */) {
-  throw new Error('Not implemented');
+function distinct(arr) {
+  return [...new Set(arr)];
 }
 
 /**
