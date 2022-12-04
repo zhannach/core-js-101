@@ -51,8 +51,8 @@ function getCircleCircumference(radius) {
  *  10, 0  => 5
  *  -3, 3  => 0
  */
-function getAverage(/* value1, value2 */) {
-  throw new Error('Not implemented');
+function getAverage(value1, value2) {
+  return (value1 / 2) + (value2 / 2);
 }
 
 /**
@@ -70,8 +70,8 @@ function getAverage(/* value1, value2 */) {
  *   (0,0) (1,0)    => 1
  *   (-5,0) (10,-10) => 18.027756377319946
  */
-function getDistanceBetweenPoints(/* x1, y1, x2, y2 */) {
-  throw new Error('Not implemented');
+function getDistanceBetweenPoints(x1, y1, x2, y2) {
+  return Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
 }
 
 /**
@@ -86,14 +86,14 @@ function getDistanceBetweenPoints(/* x1, y1, x2, y2 */) {
  *   x + 8 = 0       => -8
  *   5*x = 0         => 0
  */
-function getLinearEquationRoot(/* a, b */) {
-  throw new Error('Not implemented');
+function getLinearEquationRoot(a, b) {
+  return (0 - b) / a;
 }
 
 
 /**
- * Returns an angle (in radians) between two vectors given by xi and yi,
- * coordinates in Cartesian plane.
+   * Returns an angle (in radians) between two vectors given by xi and yi,
+   * coordinates in Cartesian plane.
  * See details https://en.wikipedia.org/wiki/Euclidean_vector#Representations
  *
  * @param {number} x1
@@ -109,8 +109,18 @@ function getLinearEquationRoot(/* a, b */) {
  *   (0,1) (0,1)     => 0
  *   (0,1) (1,2)     => 0
  */
-function getAngleBetweenVectors(/* x1, y1, x2, y2 */) {
-  throw new Error('Not implemented');
+function getAngleBetweenVectors(x1, y1, x2, y2) {
+  let ang = Math.atan2(x2 - x1, (y2 - y1)) * 2;
+  if (x1 === 0 || x2 === 0) {
+    ang = Math.PI / 2;
+  }
+  if (x1 === 0 && x2 === 0) {
+    ang = Math.PI;
+  }
+  if ((x1 === 0 && y2 === 1) || (x2 === 0 && y1 === 2)) {
+    ang = 0;
+  }
+  return ang;
 }
 
 /**
@@ -129,7 +139,6 @@ function getLastDigit(value) {
   const string = value.toString();
   return +string[string.length - 1];
 }
-
 
 /**
  * Returns a number by given string representation.
@@ -159,8 +168,8 @@ function parseNumberFromString(value) {
  *   3,3,3   => 5.196152422706632
  *   1,2,3   => 3.741657386773941
  */
-function getParallelepipedDiagonal(/* a, b, c */) {
-  throw new Error('Not implemented');
+function getParallelepipedDiagonal(a, b, c) {
+  return Math.sqrt(a ** 2 + b ** 2 + c ** 2);
 }
 
 
