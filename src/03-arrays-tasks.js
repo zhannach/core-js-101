@@ -605,12 +605,18 @@ function getElementByIndexes(/* arr, indexes */) {
  */
 function swapHeadAndTail(arr) {
   if (arr.length === 1) return arr;
-  const isEven = arr.length % 2 !== 0;
-  const midIndex = isEven ? Math.floor(arr.length / 2) : (arr.length / 2);
-  const head = arr.slice(0, midIndex);
-  const tail = isEven ? arr.slice(midIndex + 1) : arr.slice(midIndex);
-  console.log(head, tail);
-  return isEven ? [...tail, arr[midIndex], ...head] : [...tail, ...head];
+  const dist = Math.ceil(arr.length / 2);
+  const skipIndex = arr.length % 2 === 0 ? dist : dist - 1;
+  const arr1 = arr;
+  const cb = (el, i) => {
+    if (i >= skipIndex) {
+      return arr1[i];
+    }
+    arr1[i] = arr[i + dist];
+    arr1[i + dist] = el;
+    return arr1[i];
+  };
+  return arr1.map(cb);
 }
 
 
