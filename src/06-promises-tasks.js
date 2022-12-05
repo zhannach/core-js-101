@@ -105,11 +105,12 @@ function getFastestPromise(array) {
  *    });
  *
  */
-function chainPromises(array, action) {
-  return Promise.all(array).then((res) => {
-    const resSum = action(res);
-    return resSum;
-  });
+function chainPromises(/* array, action */) {
+  // return Promise.all(array).then((res) => {
+  //   // const resSum = action(res);
+  //   // return resSum;
+  // });
+  throw new Error('Not implemented');
 }
 
 module.exports = {
