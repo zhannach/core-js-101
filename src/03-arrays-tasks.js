@@ -445,18 +445,13 @@ function toStringList(arr) {
  *      { country: 'Russia',  city: 'Saint Petersburg' }
  *    ]
  */
-function sortCitiesArray(/* arr */) {
-  // const country = [
-  //   { country: 'Russia', city: 'Moscow' },
-  //   { country: 'Belarus', city: 'Minsk' },
-  //   { country: 'Poland', city: 'Warsaw' },
-  //   { country: 'Russia', city: 'Saint Petersburg' },
-  //   { country: 'Poland', city: 'Krakow' },
-  //   { country: 'Belarus', city: 'Brest' },
-  // ];
-  // const compare = (a, b) => lib[a] - lib[b];
-  // return arr.sort(compare);
-  throw new Error('Not implemented');
+function sortCitiesArray(arr) {
+  const arrCountry = arr.sort((a, b) => {
+    const adress1 = a.country + a.city;
+    const adress2 = b.country + b.city;
+    return adress1.localeCompare(adress2);
+  });
+  return arrCountry;
 }
 
 /**
@@ -495,9 +490,8 @@ function getIdentityMatrix(/* n */) {
  *     0, 100 => [ 0, 1, 2, ..., 100 ]
  *     3, 3   => [ 3 ]
  */
-function getIntervalArray(/* start, end */) {
-  // return Array.from({ length: (end - start) - 2 }, (v, k) => k + 1);
-  throw new Error('Not implemented');
+function getIntervalArray(start, end) {
+  return Array(end - start + 1).fill().map((_, idx) => start + idx);
 }
 
 /**
@@ -563,10 +557,13 @@ function group(/* array, keySelector, valueSelector */) {
  *   [[1, 2], [3, 4], [5, 6]], (x) => x     =>   [ 1, 2, 3, 4, 5, 6 ]
  *   ['one','two','three'], (x) => x.split('')  =>   ['o','n','e','t','w','o','t','h','r','e','e']
  */
-function selectMany(/* arr, childrenSelector */) {
-  throw new Error('Not implemented');
+function selectMany(arr, childrenSelector) {
+  const newArr = arr.reduce((acc, el) => {
+    const array = acc.concat(childrenSelector(el));
+    return array;
+  }, []);
+  return newArr;
 }
-
 
 /**
  * Returns an element from the multidimensional array by the specified indexes.
@@ -580,8 +577,12 @@ function selectMany(/* arr, childrenSelector */) {
  *   ['one','two','three'], [2]       => 'three'  (arr[2])
  *   [[[ 1, 2, 3]]], [ 0, 0, 1 ]      => 2        (arr[0][0][1])
  */
-function getElementByIndexes(/* arr, indexes */) {
-  throw new Error('Not implemented');
+function getElementByIndexes(arr, indexes) {
+  const popped = indexes.shift();
+  if (indexes.length === 0 || arr[popped] === undefined) {
+    return arr[popped];
+  }
+  return getElementByIndexes(arr[popped], indexes);
 }
 
 
