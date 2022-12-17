@@ -472,9 +472,14 @@ function sortCitiesArray(arr) {
  *           [0,0,0,1,0],
  *           [0,0,0,0,1]]
  */
-function getIdentityMatrix(/* n */) {
-  // return [...Array(n)].map((e1, x, arr) => arr.map((e2, y) => (x === y ? 1 : 0)));
-  throw new Error('Not implemented');
+function getIdentityMatrix(n) {
+  return Array.from({ length: n }, (_el, i) => {
+    const innArr = Array.from({ length: n }, (el1, j) => {
+      const y = i === j ? 1 : 0;
+      return y;
+    });
+    return innArr;
+  });
 }
 
 /**
@@ -522,9 +527,7 @@ function distinct(arr) {
  *
  * @example
  *   group([
- *      { country: 'Belarus', city: 'Brest' },
- *      { country: 'Russia', city: 'Omsk' },
- *      { country: 'Russia', city: 'Samara' },
+ *      { country: 'Belarus', city: ['Brest', '...'] },
  *      { country: 'Belarus', city: 'Grodno' },
  *      { country: 'Belarus', city: 'Minsk' },
  *      { country: 'Poland', city: 'Lodz' }
@@ -539,8 +542,20 @@ function distinct(arr) {
  *    "Poland" => ["Lodz"]
  *   }
  */
-function group(/* array, keySelector, valueSelector */) {
-  throw new Error('Not implemented');
+function group(array, keySelector, valueSelector) {
+  const newObj = array.reduce((acc, el) => {
+    const country = keySelector(el);
+    const city = valueSelector(el);
+    if (!acc.has(country)) {
+      acc.set(country, [city]);
+    } else {
+      const arr = acc.get(country);
+      arr.push(city);
+      acc.set(country, arr);
+    }
+    return acc;
+  }, new Map());
+  return newObj;
 }
 
 
