@@ -174,7 +174,6 @@ const cssSelectorBuilder = {
       throw new Error(this.error);
     }
   },
-  
   element(value) {
     this.checkOrder(1);
     const obj = { ...cssSelectorBuilder };
