@@ -23,8 +23,9 @@
  *   getComposition(Math.sin, Math.asin)(x) => Math.sin(Math.asin(x))
  *
  */
-function getComposition(/* f, g */) {
-  throw new Error('Not implemented');
+function getComposition(f, g) {
+  const compose = (x) => f(g(x));
+  return compose;
 }
 
 
@@ -44,8 +45,9 @@ function getComposition(/* f, g */) {
  *   power05(16) => 4
  *
  */
-function getPowerFunction(/* exponent */) {
-  throw new Error('Not implemented');
+function getPowerFunction(exponent) {
+  const power = (x) => x ** exponent;
+  return power;
 }
 
 
@@ -62,10 +64,16 @@ function getPowerFunction(/* exponent */) {
  *   getPolynom(8)     => y = 8
  *   getPolynom()      => null
  */
-function getPolynom() {
-  throw new Error('Not implemented');
+function getPolynom(...arg) {
+  const polynom = (x) => {
+    let result = 0;
+    arg.forEach((item, i, args) => {
+      result += item * x ** Math.abs(i - args.length + 1);
+    });
+    return result;
+  };
+  return polynom;
 }
-
 
 /**
  * Memoizes passed function and returns function
@@ -81,8 +89,13 @@ function getPolynom() {
  *   ...
  *   memoizer() => the same random number  (next run, returns the previous cached result)
  */
-function memoize(/* func */) {
-  throw new Error('Not implemented');
+function memoize(func) {
+  const value = func();
+  const memoried = () => {
+    const result = value;
+    return result;
+  };
+  return memoried;
 }
 
 
@@ -101,8 +114,18 @@ function memoize(/* func */) {
  * }, 2);
  * retryer() => 2
  */
-function retry(/* func, attempts */) {
-  throw new Error('Not implemented');
+function retry(func, attempts) {
+  return () => {
+    let attemptedCount = 0;
+    while (attempts > attemptedCount) {
+      try {
+        return func();
+      } catch (e) {
+        attemptedCount = +1;
+      }
+    }
+    return undefined;
+  };
 }
 
 
@@ -121,7 +144,7 @@ function retry(/* func, attempts */) {
  *
  * @example
  *
- * const cosLogger = logger(Math.cos, console.log);
+ * const cosLogger = logger(Math.round, console.log);
  * const result = cosLogger(Math.PI));     // -1
  *
  * log from console.log:
@@ -129,8 +152,15 @@ function retry(/* func, attempts */) {
  * cos(3.141592653589793) ends
  *
  */
-function logger(/* func, logFunc */) {
-  throw new Error('Not implemented');
+function logger(func, logFunc) {
+  const logWrapper = (...arg) => {
+    const correctStr = JSON.stringify(arg);
+    logFunc(`${func.name}(${correctStr.substring(1, correctStr.length - 1)}) starts`);
+    const result = func(...arg);
+    logFunc(`${func.name}(${correctStr.substring(1, correctStr.length - 1)}) ends`);
+    return result;
+  };
+  return logWrapper;
 }
 
 
@@ -147,10 +177,10 @@ function logger(/* func, logFunc */) {
  *   partialUsingArguments(fn, 'a','b','c')('d') => 'abcd'
  *   partialUsingArguments(fn, 'a','b','c','d')() => 'abcd'
  */
-function partialUsingArguments(/* fn, ...args1 */) {
-  throw new Error('Not implemented');
+function partialUsingArguments(fn, ...args1) {
+  const result = fn.bind(null, ...args1);
+  return result;
 }
-
 
 /**
  * Returns the id generator function that returns next integer starting
@@ -169,8 +199,14 @@ function partialUsingArguments(/* fn, ...args1 */) {
  *   getId4() => 7
  *   getId10() => 11
  */
-function getIdGeneratorFunction(/* startFrom */) {
-  throw new Error('Not implemented');
+function getIdGeneratorFunction(startFrom) {
+  let start = startFrom;
+  const getId = () => {
+    const returnValue = start;
+    start += 1;
+    return returnValue;
+  };
+  return getId;
 }
 
 
