@@ -27,8 +27,18 @@
  *  21 => 'Fizz'
  *
  */
-function getFizzBuzz(/* num */) {
-  throw new Error('Not implemented');
+function getFizzBuzz(num) {
+  let result = '';
+  if (num % 5 === 0 && num % 3 === 0 && num !== 1) {
+    result = 'FizzBuzz';
+  } else if (num % 5 === 0 && num !== 1) {
+    result = 'Buzz';
+  } else if (num % 3 === 0 && num !== 1) {
+    result = 'Fizz';
+  } else {
+    result = num;
+  }
+  return result;
 }
 
 
@@ -43,10 +53,15 @@ function getFizzBuzz(/* num */) {
  *   5  => 120
  *   10 => 3628800
  */
-function getFactorial(/* n */) {
-  throw new Error('Not implemented');
+function getFactorial(n) {
+  let result = 0;
+  if (n <= 0) {
+    result = 1;
+  } else {
+    result = n * getFactorial(n - 1);
+  }
+  return result;
 }
-
 
 /**
  * Returns the sum of integer numbers between n1 and n2 (inclusive).
@@ -60,8 +75,12 @@ function getFactorial(/* n */) {
  *   5,10  =>  45 ( = 5+6+7+8+9+10 )
  *   -1,1  =>  0  ( = -1 + 0 + 1 )
  */
-function getSumBetweenNumbers(/* n1, n2 */) {
-  throw new Error('Not implemented');
+function getSumBetweenNumbers(n1, n2) {
+  let res = 0;
+  for (let i = n1; i <= n2; i += 1) {
+    res += i;
+  }
+  return res;
 }
 
 
@@ -80,8 +99,14 @@ function getSumBetweenNumbers(/* n1, n2 */) {
  *   10,1,1   =>  false
  *   10,10,10 =>  true
  */
-function isTriangle(/* a, b, c */) {
-  throw new Error('Not implemented');
+function isTriangle(a, b, c) {
+  let result = null;
+  if (a + b > c && a + c > b && c + b > a) {
+    result = true;
+  } else {
+    result = false;
+  }
+  return result;
 }
 
 
@@ -208,8 +233,9 @@ function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
  * 'rotator' => 'rotator'
  * 'noon' => 'noon'
  */
-function reverseString(/* str */) {
-  throw new Error('Not implemented');
+function reverseString(str) {
+  const newStr = str.split('').reverse().join('');
+  return newStr;
 }
 
 
@@ -225,8 +251,10 @@ function reverseString(/* str */) {
  *   87354 => 45378
  *   34143 => 34143
  */
-function reverseInteger(/* num */) {
-  throw new Error('Not implemented');
+function reverseInteger(num) {
+  const strNum = num.toString();
+  const reverseNum = strNum.split('').reverse().join('');
+  return Number(reverseNum);
 }
 
 
@@ -250,8 +278,22 @@ function reverseInteger(/* num */) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(ccn) {
+  let sum = 0;
+  let isTrue = false;
+  const cardNo = ccn.toString();
+  for (let i = cardNo.length - 1; i >= 0; i -= 1) {
+    let digit = +cardNo[i];
+    if (isTrue) {
+      digit *= 2;
+      if (digit > 9) {
+        digit -= 9;
+      }
+    }
+    sum += digit;
+    isTrue = !isTrue;
+  }
+  return sum % 10 === 0;
 }
 
 /**
@@ -268,10 +310,18 @@ function isCreditCardNumber(/* ccn */) {
  *   10000 ( 1+0+0+0+0 = 1 ) => 1
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
-function getDigitalRoot(/* num */) {
-  throw new Error('Not implemented');
+function getDigitalRoot(num) {
+  const str = num.toString();
+  let sum = 0;
+  for (let i = 0; i < str.length; i += 1) {
+    sum += +str[i];
+  }
+  if (sum > 9) {
+    return getDigitalRoot(sum);
+  }
+  return sum;
+  // return sum > 9 ? getDigitalRoot(sum) : sum;
 }
-
 
 /**
  * Returns true if the specified string has the balanced brackets and false otherwise.
@@ -294,10 +344,30 @@ function getDigitalRoot(/* num */) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  const arr = str.split('');
+  const newArr = [];
+  const library = {
+    '[': ']',
+    '{': '}',
+    '(': ')',
+    '<': '>',
+  };
+  if (arr.length % 2 !== 0) {
+    return false;
+  }
+  for (let i = 0; i < arr.length; i += 1) {
+    const brack = arr[i];
+    if (library[brack]) {
+      newArr.push(brack);
+    } else if (brack === library[newArr.at(-1)]) {
+      newArr.pop();
+    } else {
+      return false;
+    }
+  }
+  return newArr.length === 0;
 }
-
 
 /**
  * Returns the string with n-ary (binary, ternary, etc, where n <= 10)
@@ -336,8 +406,21 @@ function toNaryString(/* num, n */) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/verbalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
+function getCommonDirectoryPath(pathes) {
+  const slashed = pathes.map((p) => p.split('/'));
+  let i = 0;
+  const result = [];
+  while (i < slashed[0].length) {
+    const prev = slashed[0][i];
+    for (let j = 1; j < pathes.length; j += 1) {
+      if (slashed[j][i] !== prev) {
+        return result.length ? `${result.join('/')}/` : '';
+      }
+    }
+    result.push(prev);
+    i += 1;
+  }
+  return result.length ? `${result.join('/')}/` : '';
 }
 
 
