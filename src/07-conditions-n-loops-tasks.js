@@ -142,8 +142,8 @@ function isTriangle(a, b, c) {
  *   { top:20, left:20, width: 20, height: 20 }    =>  false
  *
  */
-function doRectanglesOverlap(/* rect1, rect2 */) {
-  throw new Error('Not implemented');
+function doRectanglesOverlap(rect1, rect2) {
+  return rect1.top + rect1.height > rect2.top && rect1.left + rect1.width > rect2.left;
 }
 
 
@@ -173,8 +173,9 @@ function doRectanglesOverlap(/* rect1, rect2 */) {
  *   { center: { x:0, y:0 }, radius:10 },  { x:10, y:10 }   => false
  *
  */
-function isInsideCircle(/* circle, point */) {
-  throw new Error('Not implemented');
+function isInsideCircle(circle, point) {
+  const { x, y } = circle.center;
+  return (point.x - x) ** 2 + (point.y - y) ** 2 < circle.radius ** 2;
 }
 
 
@@ -189,11 +190,25 @@ function isInsideCircle(/* circle, point */) {
  *   'abracadabra'  => 'c'
  *   'entente' => null
  */
-function findFirstSingleChar(/* str */) {
-  throw new Error('Not implemented');
+function findFirstSingleChar(str) {
+  const dict = {};
+  let res = '';
+  for (let i = 0; i < str.length; i += 1) {
+    const key = str[i];
+    dict[key] = dict[key] === undefined ? 1 : dict[key] + 1;
+  }
+  const entries = Object.entries(dict);
+  for (let j = 0; j < entries.length; j += 1) {
+    const [key, value] = entries[j];
+    if (value === 1) {
+      res = key;
+      break;
+    } else {
+      res = null;
+    }
+  }
+  return res;
 }
-
-
 /**
  * Returns the string representation of math interval,
  * specified by two points and include / exclude flags.
@@ -216,8 +231,21 @@ function findFirstSingleChar(/* str */) {
  *   5, 3, true, true   => '[3, 5]'
  *
  */
-function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
-  throw new Error('Not implemented');
+function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
+  let res = '';
+  if (isStartIncluded && isEndIncluded) {
+    res = a < b ? `[${a}, ${b}]` : `[${b}, ${a}]`;
+  }
+  if (isStartIncluded && !isEndIncluded) {
+    res = a < b ? `[${a}, ${b})` : `[${a}, ${b})`;
+  }
+  if (!isStartIncluded && isEndIncluded) {
+    res = a < b ? `(${a}, ${b}]` : `(${a}, ${b}]`;
+  }
+  if (!isStartIncluded && !isEndIncluded) {
+    res = a < b ? `(${a}, ${b})` : `(${a}, ${b})`;
+  }
+  return res;
 }
 
 
@@ -389,8 +417,8 @@ function isBracketsBalanced(str) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  return num.toString(n);
 }
 
 
@@ -442,8 +470,21 @@ function getCommonDirectoryPath(pathes) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(m1, m2) {
+  const firstArrRows = m1.length;
+  const firstArrCols = m1[0].length;
+  const secondArrCols = m2[0].length;
+  const resultArr = new Array(firstArrRows);
+  for (let i = 0; i < firstArrRows; i += 1) {
+    resultArr[i] = new Array(secondArrCols);
+    for (let j = 0; j < secondArrCols; j += 1) {
+      resultArr[i][j] = 0;
+      for (let g = 0; g < firstArrCols; g += 1) {
+        resultArr[i][j] += m1[i][g] * m2[g][j];
+      }
+    }
+  }
+  return resultArr;
 }
 
 
@@ -477,8 +518,40 @@ function getMatrixProduct(/* m1, m2 */) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+function evaluateTicTacToePosition(position) {
+  let crossDown = position[0][0];
+  let crossUp = position[0][position.length - 1];
+  for (let i = 0; i < 3; i += 1) {
+    let horisontal = position[i][0];
+    let vertical = position[0][i];
+    for (let j = 0; j < 3; j += 1) {
+      if (horisontal !== position[i][j]) {
+        horisontal = false;
+      }
+      if (vertical !== position[j][i]) {
+        vertical = false;
+      }
+      if (i === j && crossDown !== position[i][j]) {
+        crossDown = false;
+      }
+      if (j === (position.length - 1) - i && crossUp !== position[i][j]) {
+        crossUp = false;
+      }
+    }
+    if (horisontal !== undefined && horisontal !== false) {
+      return horisontal;
+    }
+    if (vertical !== undefined && vertical !== false) {
+      return vertical;
+    }
+  }
+  if (crossDown !== undefined && crossDown !== false) {
+    return crossDown;
+  }
+  if (crossUp !== undefined && crossUp !== false) {
+    return crossUp;
+  }
+  return undefined;
 }
 
 
